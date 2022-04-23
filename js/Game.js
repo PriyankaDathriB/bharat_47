@@ -59,12 +59,13 @@ class Game {
   play() {
     this.handleElements();
     this.handleResetButton();
-    //player.getBallDetails();
+    player.getBallDetails();
     Player.getPlayersInfo();
     
 
-    if (allPlayers !== undefined) {
+    if (allPlayers !== undefined && localBall!==undefined) {
       this.showLeaderBoard();
+
 
       //player1 is striker player2 is goalie
       if(this.phase == 1){
@@ -73,35 +74,46 @@ class Game {
 
           p2.position.x = allPlayers['player2'].positionX;
           p2.position.y = allPlayers['player2'].positionY;
+
+          ball.position.x = localBall.x;
+          ball.position.y = localBall.y;
           
         if(player.index == 2){
-          text("Press arrow keys to move",100,50);
-          if (keyIsDown(LEFT_ARROW)) {
-            player.positionX -= 5;
-            player.update();
-            player.updateBallDetails();
-          }
-      
-          if (keyIsDown(RIGHT_ARROW)) { 
-            player.positionX += 5;
-            player.update();
-          }
 
-          if(keyIsDown(UP_ARROW)){
-            player.positionY -= 15;
-            player.update();
-            setTimeout(() => {player.positionY += 15;}, 5000);
-            player.update();
-          }
+          text("Press arrow keys to move",100,50);
+
+            if (keyIsDown(LEFT_ARROW)) {
+              player.positionX -= 5;
+              player.update();
+             
+            }
+        
+            if (keyIsDown(RIGHT_ARROW)) { 
+              player.positionX += 5;
+              player.update();
+            }
         }
 
         else if (player.index == 1 && this.count<=5 && this.flag == true){
             text("Press UP ARROW to kick the ball",100,50);
-            if(keyIsDown(UP_ARROW)){
-                ball.attractionPoint (3, mouseX, mouseY );
-                this.count++;
-                player.updateBallDetails();
-            }
+
+
+              if (keyIsDown(LEFT_ARROW)) {
+                ball.position.x -= 5;
+                player.updateBallDetails(ball.position.x, ball.position.y);
+              }
+          
+              if (keyIsDown(RIGHT_ARROW)) { 
+                ball.position.x += 5;
+                player.updateBallDetails(ball.position.x, ball.position.y);
+              }
+
+              if(keyIsDown(UP_ARROW)){
+                ball.position.y -= 15;
+                  this.count++;
+                  player.updateBallDetails(ball.position.x, ball.position.y);
+              }
+            
         }
 
        
@@ -114,7 +126,7 @@ class Game {
       else {
        
       }
-      player.updateBallDetails();
+      player.updateBallDetails(ball.position.x, ball.position.y);
     } 
 
     drawSprites();
