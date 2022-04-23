@@ -5,7 +5,7 @@ var database, gameState;
 var form, player, playerCount;
 var allPlayers, p1, p2;
 var players = [];
-var goal,ball;
+var goal,ball,localBall;
 var ballimg;
 
 function preload() {
