@@ -70,17 +70,14 @@ class Player {
   getBallDetails() {
 
     database.ref("ball").on("value", data => {
-      var pos = data.val();
-      ball.position.x = pos.x;
-      ball.position.y = pos.y;
-     
+      localBall = data.val();
     });
   }
 
-  updateBallDetails(){
+  updateBallDetails(a,b){
     database.ref("ball").update({
-      x:ball.position.x,
-      y:ball.position.y
+      x:a,
+      y:b
     });
   }
   
